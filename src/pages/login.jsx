@@ -1,4 +1,6 @@
 import React, {useState} from "react";
+
+// stylings
 import "./login.css"; 
 
 const Login = () => {
@@ -30,7 +32,7 @@ return (
          </form>
          <div className="links">
             {/* Example only for routing if needed */}
-            < a href ="/create-account">Create Account!</a>
+            < a href ="/register">Create Account!</a>
             < a href ="/admin">Admin</a>
          </div>
         </div>
