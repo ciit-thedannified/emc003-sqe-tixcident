@@ -47,7 +47,6 @@ return (
             <div className="links">
                 {/* Example only for routing if needed */}
                 < a href ="/register">Create Account!</a>
-                < a href ="/admin">Admin</a>
                 </div>
             </div>
         </div>
