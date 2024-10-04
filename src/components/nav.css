@@ -5,13 +5,14 @@
 
 nav {
     width: 100vw;
+    background-color: #78b7d0;
     display: flex;
     justify-content: space-between;
+    color: #16325b;
 }
 
 menu {
     width: 50vw;
-    max-width: 75rem;
     display: flex;
     justify-content: space-around;
 }
