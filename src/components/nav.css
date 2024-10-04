@@ -1,0 +1,12 @@
+nav {
+    display: flex;
+}
+
+menu {
+    display: flex;
+}
+
+li {
+    list-style: none;
+    text-decoration: none;
+}
