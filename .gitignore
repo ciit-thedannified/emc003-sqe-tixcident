@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Custom .gitignore rules
+
+# Ignores all data files living inside the directory, except data templates.
+/src/data/*/*.js
