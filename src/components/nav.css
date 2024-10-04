@@ -1,9 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 nav {
+    width: 100vw;
     display: flex;
+    justify-content: space-between;
 }
 
 menu {
+    width: 50vw;
+    max-width: 75rem;
     display: flex;
+    justify-content: space-around;
 }
 
 li {
