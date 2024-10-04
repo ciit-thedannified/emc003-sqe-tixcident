@@ -1,11 +1,9 @@
-import React from "react";
-import Login from './pages/login';
-import Register from "./pages/register";
+import LoginPage from './pages/LoginPage.jsx';
 
-function App(){
-  return (
-    <Login/>
-  );
-};
+function App() {
+    return (
+        <LoginPage />
+    );
+}
 
 export default App;
