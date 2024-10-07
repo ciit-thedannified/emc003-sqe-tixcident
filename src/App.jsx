@@ -15,9 +15,9 @@ function App() {
 
     <>
       <Navbar />
-      <div className="appContainer">
-        <Sidebar />
-        <Outlet />
+      <div className="mainAppContainer">
+        <div className='appContainer' id='sidebar'><Sidebar /></div>
+        <div className='appContainer' id='outlet'><Outlet /></div>
       </div>
       <Footer />
     </>

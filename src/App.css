@@ -1,0 +1,15 @@
+.mainAppContainer {
+    display: flex;
+}
+
+.appContainer {
+    height: fit-content;
+}
+
+#sidebar {
+    width: 25vw;
+}
+
+#outlet {
+    width: 75vw;
+}
