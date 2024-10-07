@@ -1,3 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .mainAppContainer {
     display: flex;
 }
@@ -7,9 +13,9 @@
 }
 
 #sidebar {
-    width: 25vw;
+    width: 15vw;
 }
 
 #outlet {
-    width: 75vw;
+    width: 85vw;
 }

@@ -13,9 +13,9 @@ function Navbar() {
     <nav>
       <h1>TIXIDENT</h1>
         <menu>
-            <li><img src={create_icn} alt='create icon' id='create_icn' className='notif_icn' />Create</li>
-            <li><img src={notif_icn} alt='notification icon' id='notif_icn' className='notif_icn' /> Notifications</li>
-            <li><img src={logout_icn} alt='logout icon' id='logout_icn' className='notif_icn' /> Logout</li>
+            <li className='menuLi'><img src={create_icn} alt='create icon' id='create_icn' className='notif_icn' /> Create</li>
+            <li className='menuLi'><img src={notif_icn} alt='notification icon' id='notif_icn' className='notif_icn' /> Notifications</li>
+            <li className='menuLi'><img src={logout_icn} alt='logout icon' id='logout_icn' className='notif_icn' /> Logout</li>
         </menu>
     </nav>
   )

@@ -1,15 +1,14 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-
 nav {
     width: 100vw;
     background-color: #78b7d0;
     display: flex;
     justify-content: space-between;
-    padding: 8px;
+    padding: 12px;
     color: #16325b;
+}
+
+nav h1 {
+    font-size: 3rem;
 }
 
 menu {
@@ -18,7 +17,8 @@ menu {
     justify-content: space-around;
 }
 
-li {
+.menuLi {
     list-style: none;
     text-decoration: none;
+    font-size: 1.5rem;
 }

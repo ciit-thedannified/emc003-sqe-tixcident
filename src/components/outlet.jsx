@@ -7,6 +7,12 @@ function Outlet() {
   return (
     <main>
         Outlet
+        <br />
+        content
+        <br />
+        content
+        <br />
+        content 
     </main>
   )
 }
