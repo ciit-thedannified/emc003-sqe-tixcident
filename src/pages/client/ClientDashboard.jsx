@@ -3,6 +3,7 @@ import ClientSidebar from "../../components/client/ClientSidebar.jsx";
 import ClientNavigationBar from "../../components/client/ClientNavigationBar.jsx";
 import TicketCard from "../../components/TicketCard.jsx";
 import ClientMenuChart from "../../components/client/ClientMenuChart.jsx";
+import YourIssues from "../../components/YourIssues.jsx";
 import { DocumentIcon, ClockIcon, CheckCircleIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/solid";
 
 export default function ClientDashboard() {
@@ -34,6 +35,11 @@ export default function ClientDashboard() {
                     {/* Charts Section */}
                     <div className="flex flex-wrap gap-6">
                         <ClientMenuChart/>
+                    </div>
+
+                    {/* Your Issues Section */}
+                    <div className="flex flex-wrap gap-6">
+                        <YourIssues/>
                     </div>
 
                     <Outlet />

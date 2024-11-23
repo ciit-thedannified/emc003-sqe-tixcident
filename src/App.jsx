@@ -1,8 +1,15 @@
-import './index.css';
-import ClientDashboard from "./pages/client/ClientDashboard.jsx";
+import ClientDashboard from "./pages/client/ClientDashboard";
+import UserProfile from "./components/UserProfile";
 
-function App() {
-  return <ClientDashboard />
-}
+export default function App() {
+  return (
 
-export default App
+       <div>
+         <ClientDashboard/>
+      </div>
+    );
+} 
+
+ {/**/}
+
+ {/*<UserProfile/>*/}
