@@ -1,7 +1,16 @@
-import LoginPage from "./pages/auth/LoginPage.jsx";
+import ClientDashboard from "./pages/client/ClientDashboard";
+import UserProfile from "./components/UserProfile";
 
 export default function App() {
   return (
-      <LoginPage />
-  );
+
+       <div>
+        <ClientDashboard/>
+      </div>
+    );
 }
+
+ {/**/}
+
+ {/* <UserProfile/>*/}
+

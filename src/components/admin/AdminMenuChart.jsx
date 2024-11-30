@@ -1,7 +1,7 @@
 import ActiveTicketsPriority from "../ActiveTicketsPriority";
 import TicketOverview from "../TicketOverview";
 
-const ClientMenuChart = () => {
+const AdminMenuChart = () => {
   
   return (
     <div className="flex justify-end gap-8 p-8 mt-6 bg-white rounded-lg shadow-md w-full">
@@ -26,4 +26,4 @@ const ClientMenuChart = () => {
   );
 };
 
-export default ClientMenuChart;
+export default AdminMenuChart;

@@ -1,6 +1,6 @@
-import { HomeIcon, TicketIcon, UserIcon, PaperAirplaneIcon, ChatBubbleOvalLeftEllipsisIcon } from '@heroicons/react/24/solid'
+import { HomeIcon, TicketIcon, UserCircleIcon, UserIcon, PaperAirplaneIcon, ChatBubbleOvalLeftEllipsisIcon } from '@heroicons/react/24/solid'
 
-const ClientSidebarMenu = [
+const AdminSidebarMenu = [
   {
     label: "Dashboard",
     icon: <HomeIcon className="w-6 h-6 text-white" />,
@@ -10,11 +10,11 @@ const ClientSidebarMenu = [
     icon: <TicketIcon className="w-6 h-6 text-white" />,
   },
   {
-    label: "Feedbacks",
-    icon: <PaperAirplaneIcon className="w-6 h-6 text-white" />,
+    label: "Account Profile",
+    icon: <UserCircleIcon className="w-6 h-6 text-white" />,
   },
   {
-    label: "Account Profile",
+    label: "Users",
     icon: <UserIcon className="w-6 h-6 text-white" />,
   },
   {
@@ -23,4 +23,4 @@ const ClientSidebarMenu = [
   },
 ];
 
-export default ClientSidebarMenu;
+export default AdminSidebarMenu;
