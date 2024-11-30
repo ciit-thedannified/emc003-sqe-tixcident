@@ -5,8 +5,8 @@
     height: 100vh;
     width: 100vw;
     /* Specifically for the image bg only */
-    background-image: url("/src/images/BG.png");
-    background-size:cover;
+    background-image: var(--background-register);
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     box-sizing: border-box;
