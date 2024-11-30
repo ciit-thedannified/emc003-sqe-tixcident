@@ -1,16 +1,15 @@
 import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel, getSortedRowModel } from "@tanstack/react-table";
-import datas from "../../../datas.json";
+import datas from "../../../feedback.json";
 import { useMemo, useState } from "react";
 
-export default function AdminTable() {
+export default function AdminFeedbackTable() {
     const data = useMemo(() => datas, []);
 
     const columns = [
         { header: "Title", accessorKey: "title" },
-        { header: "Status", accessorKey: "status" },
-        { header: "Staff", accessorKey: "staff" },
-        { header: "Priority", accessorKey: "priority" },
+        { header: "Author", accessorKey: "author" },
         { header: "Type", accessorKey: "type" },
+        { header: "Rating", accessorKey: "rating" },
         { header: "Created at", accessorKey: "createdAt" },
         { header: "Updated at", accessorKey: "updatedAt" },
     ];
@@ -20,14 +19,14 @@ export default function AdminTable() {
 
     const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel(), getFilteredRowModel: getFilteredRowModel(), getSortedRowModel: getSortedRowModel(), 
         state:{globalFilter: filtering,
-                sorting: sorting,
+            sorting: sorting,
         },
-        
+
         onGlobalFilterChange: setFiltering,
         onSortingChange: setSorting,
      });
 
-    return (
+     return (
         <div className="p-6 bg-gray-100 min-h-screen">
             <input type = "text" value={filtering} onChange={(e) => setFiltering(e.target.value)}placeholder="Search..." className="w-full p-3 mb-4 text-sm text-gray-700 bg-gray-100 
             border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
@@ -112,3 +111,4 @@ export default function AdminTable() {
         </div>
     );
 }
+

@@ -15,6 +15,7 @@ export default function AdminTable() {
         { header: "Updated at", accessorKey: "updatedAt" },
     ];
 
+   
     const [filtering, setFiltering] = useState('')
     const [sorting, setSorting] = useState([])
 
@@ -26,6 +27,7 @@ export default function AdminTable() {
         onGlobalFilterChange: setFiltering,
         onSortingChange: setSorting,
      });
+
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">

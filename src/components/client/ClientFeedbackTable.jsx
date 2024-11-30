@@ -7,12 +7,9 @@ export default function AdminTable() {
 
     const columns = [
         { header: "Title", accessorKey: "title" },
-        { header: "Status", accessorKey: "status" },
-        { header: "Staff", accessorKey: "staff" },
-        { header: "Priority", accessorKey: "priority" },
         { header: "Type", accessorKey: "type" },
+        { header: "Rating", accessorKey: "rating" },
         { header: "Created at", accessorKey: "createdAt" },
-        { header: "Updated at", accessorKey: "updatedAt" },
     ];
 
     const [filtering, setFiltering] = useState('')
