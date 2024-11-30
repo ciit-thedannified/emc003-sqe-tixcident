@@ -1,5 +1,5 @@
 import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel, getSortedRowModel } from "@tanstack/react-table";
-import datas from "../../../datas.json";
+import datas from "../../data/tixcident.issues.json";
 import { useMemo, useState } from "react";
 
 export default function AdminTable() {
