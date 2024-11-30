@@ -1,11 +1,9 @@
-import AdminTable from "../../../components/admin/AdminTable.jsx";
+import ClientTable from "../../../components/client/ClientTable.jsx";
 
 export default function ClientDashboardTicketsPage() {
-
     return (
-
-    <div className="flex flex-wrap gap-6">
-                <AdminTable/>
-    </div>
-  );
+        <div>
+            <ClientTable/>
+        </div>
+    );
 }
