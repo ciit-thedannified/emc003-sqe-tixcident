@@ -1,5 +1,5 @@
 import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
-import datas from "../../../datas.json";
+import datas from "../../../feedback.json";
 import { useMemo } from "react";
 
 export default function AdminTable() {
@@ -8,10 +8,8 @@ export default function AdminTable() {
     const columns = [
         { header: "Title", accessorKey: "title" },
         { header: "Author", accessorKey: "author" },
-        { header: "Status", accessorKey: "status" },
-        { header: "Staff", accessorKey: "staff" },
-        { header: "Priority", accessorKey: "priority" },
         { header: "Type", accessorKey: "type" },
+        { header: "Rating", accessorKey: "rating" },
         { header: "Created at", accessorKey: "createdAt" },
         { header: "Updated at", accessorKey: "updatedAt" },
     ];
