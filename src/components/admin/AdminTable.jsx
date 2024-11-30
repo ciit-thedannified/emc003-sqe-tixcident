@@ -1,9 +1,9 @@
-import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
-import datas from "../../../datas.json";
-import { useMemo } from "react";
+import { useReactTable, getCoreRowModel, flexRender, getSortedRowModel } from "@tanstack/react-table";
+import DATA from "../../../data.json";
+import { useMemo, useState } from "react";
 
 export default function AdminTable() {
-    const data = useMemo(() => datas, []);
+    const data = useMemo(() => DATA, []);
 
     const columns = [
         { header: "Title", accessorKey: "title" },
@@ -16,7 +16,11 @@ export default function AdminTable() {
         { header: "Updated at", accessorKey: "updatedAt" },
     ];
 
-    const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel() });
+    const [sorting, setSorting] = useState([])
+
+    const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel(), getSortedRowModel: getSortedRowModel(), 
+        state: {sorting: sorting,}, onSortingChange: setSorting,
+    });
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
@@ -30,11 +34,26 @@ export default function AdminTable() {
                                 {headerGroup.headers.map((header) => (
                                     <th
                                         key={header.id}
+                                        onClick={header.column.getToggleSortingHandler()}
                                         className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-left w-auto">
+<<<<<<< Updated upstream
 
                                         {flexRender(
+=======
+                                            
+                                        {header.isPlaceholder ? null : 
+                                        (<div>
+                                            {flexRender(
+>>>>>>> Stashed changes
                                             header.column.columnDef.header,
                                             header.getContext()
+                                            )}
+                                            {
+                                                {asc: '🔼', desc: '🔽'} [header.column.getIsSorted()
+                                                    ?? null
+                                                ]
+                                            }
+                                            </div>
                                         )}
                                     </th>
                                 ))}
