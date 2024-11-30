@@ -6,7 +6,7 @@ export default function ClientSidebar() {
       {/* Logo Section */}
       <div className="flex items-center p-6">
         <img
-          src="/src/images/Tixcident_Icon.png"
+          src="/assets/images/Tixcident_Icon.png"
           className={`w-10 h-10 mr-2`}
         />
         <h1
