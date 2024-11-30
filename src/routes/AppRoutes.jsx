@@ -4,18 +4,24 @@ import ErrorBoundarySample from "../pages/errors/ErrorBoundarySample.jsx";
 import AuthlessRoute from "../components/authentication/AuthlessRoute.jsx";
 import LoginPage from "../pages/auth/LoginPage.jsx";
 import SignUpPage from "../pages/auth/SignUpPage.jsx";
+import AuthenticatedRoute from "../components/authentication/AuthenticatedRoute.jsx";
+import ClientDashboard from "../pages/client/ClientDashboard.jsx";
+import ClientDashboardHomePage from "../pages/client/screens/ClientDashboardHomePage.jsx";
+import ClientDashboardTicketsPage from "../pages/client/screens/ClientDashboardTicketsPage.jsx";
+import ClientDashboardViewTicketPage from "../pages/client/screens/ClientDashboardViewTicketPage.jsx";
+import ClientDashboardFeedbacksPage from "../pages/client/screens/ClientDashboardFeedbacksPage.jsx";
+import ClientDashboardViewFeedbackPage from "../pages/client/screens/ClientDashboardViewFeedbackPage.jsx";
+
+function FeedbackFormPage() {
+    return null;
+}
 
 const AppRoutes = createBrowserRouter([
-    // CATCH-ALL, ERROR CATCHING PAGE
-    {
-        path: '*',
-        errorElement: <ErrorBoundarySample />
-    },
     // ROOT - INITIAL DIRECTORY
     {
         path: '/',
         element: (
-            <App />
+            <ClientDashboard />
         )
     },
     // ROOT - LOGIN PAGE
@@ -40,49 +46,47 @@ const AppRoutes = createBrowserRouter([
     {
         path: '/u',
         element: (
-            <AuthenticatedRoute>
-                <UserDashboard />
-            </AuthenticatedRoute>
+            <ClientDashboard />
         ),
         children: [
             {
-                path: '/',
+                index: true,
                 element: (
-                    <UserDashboardHomePage />
+                    <ClientDashboardHomePage />
                 )
             },
             {
-                path: '/issues',
+                path: 'issues',
                 element: (
-                    <UserDashboardTicketsPage />
+                    <ClientDashboardTicketsPage />
                 )
             },
             {
-                path: '/issues/:issue_id',
+                path: 'issues/:issue_id',
                 element: (
-                    <UserDashboardViewTicketPage />
+                    <ClientDashboardViewTicketPage />
                 )
             },
-            {
+/*            {
                 path: '/issues/create',
                 element: (
                     <IssueFormPage />
                 ),
-            },
+            },*/
             {
-                path: '/feedbacks',
+                path: 'feedbacks',
                 element: (
-                    <UserDashboardFeedbacksPage />
+                    <ClientDashboardFeedbacksPage />
                 )
             },
             {
-                path: '/feedbacks/:feedback_id',
+                path: 'feedbacks/:feedback_id',
                 element: (
-                    <UserDashboardViewFeedbackPage />
+                    <ClientDashboardViewFeedbackPage />
                 )
             },
             {
-                path: '/feedbacks/create',
+                path: 'feedbacks/create',
                 element: (
                     <FeedbackFormPage />
                 )
