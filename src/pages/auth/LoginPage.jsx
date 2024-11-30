@@ -1,9 +1,8 @@
 import {useRef, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 
-import LogoBox from '../../assets/img/TXIDENT.png';
+import LogoBox from '../../assets/images/TXIDENT.png';
 import "../../assets/css/login.css";
-import {loginUser} from "../../services/authentication/authServices.js";
 
 export default function LoginPage() {
 
@@ -38,7 +37,7 @@ export default function LoginPage() {
                     </form>
                     <div className="links">
                         {/* Example only for routing if needed */}
-                        <Link to={'/register'}> Create Account </Link>
+                        <Link to='/signup'> Create Account </Link>
                     </div>
                 </div>
             </div>
