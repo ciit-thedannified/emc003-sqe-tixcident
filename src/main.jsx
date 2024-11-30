@@ -3,9 +3,15 @@ import './index.css'
 import App from './App.jsx'
 import {RouterProvider} from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes.jsx";
+import {AuthProvider} from "./contexts/AuthContext.js";
+import {AxiosProvider} from "./contexts/AxiosContext.js";
 
 createRoot(document.getElementById('root')).render(
-    <RouterProvider router={AppRoutes}>
-        <App />
-    </RouterProvider>
+    <AuthProvider>
+        <AxiosProvider>
+            <RouterProvider router={AppRoutes}>
+                <App />
+            </RouterProvider>
+        </AxiosProvider>
+    </AuthProvider>
 )

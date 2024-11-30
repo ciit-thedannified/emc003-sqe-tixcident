@@ -1,15 +1,7 @@
-import ClientDashboard from "./pages/client/ClientDashboard";
-import UserProfile from "./components/UserProfile";
+import LoginPage from "./pages/auth/LoginPage.jsx";
 
 export default function App() {
   return (
-
-       <div>
-         <ClientDashboard/>
-      </div>
-    );
-} 
-
- {/**/}
-
- {/*<UserProfile/>*/}
+      <LoginPage />
+  );
+}
