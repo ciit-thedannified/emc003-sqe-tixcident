@@ -4,7 +4,9 @@ import AdminNavigationBar from "../../components/admin/AdminNavigationBar.jsx";
 import TicketCard from "../../components/TicketCard.jsx";
 import AdminMenuChart from "../../components/admin/AdminMenuChart.jsx";
 import YourIssues from "../../components/YourIssues.jsx";
+import AdminTable from "../../components/admin/AdminTable.jsx";
 import { DocumentIcon, ClockIcon, CheckCircleIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/solid";
+
 
 export default function ClientDashboard() {
     return (
