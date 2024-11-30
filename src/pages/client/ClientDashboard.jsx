@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
-import ClientSidebar from "../../components/client/ClientSidebar.jsx";
-import ClientNavigationBar from "../../components/client/ClientNavigationBar.jsx";
+import AdminSidebar from "../../components/admin/AdminSidebar.jsx";
+import AdminNavigationBar from "../../components/admin/AdminNavigationBar.jsx";
 import TicketCard from "../../components/TicketCard.jsx";
-import ClientMenuChart from "../../components/client/ClientMenuChart.jsx";
+import AdminMenuChart from "../../components/admin/AdminMenuChart.jsx";
 import YourIssues from "../../components/YourIssues.jsx";
 import { DocumentIcon, ClockIcon, CheckCircleIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/solid";
 
@@ -11,14 +11,14 @@ export default function ClientDashboard() {
         <div className="flex h-screen w-screen">
             {/* Sidebar */}
             <div className="w-64">
-                <ClientSidebar />
+                <AdminSidebar />
             </div>
 
             {/* Main Content */}
             <div className="flex-1 flex flex-col">
                 {/* Navigation Bar */}
                 <div className="h-16">
-                    <ClientNavigationBar />
+                    <AdminNavigationBar />
                 </div>
 
                 <h1 className="text-2xl font-bold text-gray-500 pl-10 mt-5">DASHBOARD</h1>
@@ -34,7 +34,7 @@ export default function ClientDashboard() {
 
                     {/* Charts Section */}
                     <div className="flex flex-wrap gap-6">
-                        <ClientMenuChart/>
+                        <AdminMenuChart/>
                     </div>
 
                     {/* Your Issues Section */}
