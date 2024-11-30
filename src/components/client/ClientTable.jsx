@@ -1,5 +1,5 @@
 import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel, getSortedRowModel } from "@tanstack/react-table";
-import datas from "../../../data.json";
+import datas from "../../../datas.json";
 import { useMemo, useState } from "react";
 
 export default function AdminTable() {
@@ -15,15 +15,19 @@ export default function AdminTable() {
         { header: "Updated at", accessorKey: "updatedAt" },
     ];
 
+   
     const [filtering, setFiltering] = useState('')
     const [sorting, setSorting] = useState([])
 
     const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel(), getFilteredRowModel: getFilteredRowModel(), getSortedRowModel: getSortedRowModel(), 
-        state:{globalFilter: filtering},
+        state:{globalFilter: filtering,
+                sorting: sorting,
+        },
+        
         onGlobalFilterChange: setFiltering,
-        state: {sorting: sorting,}, 
         onSortingChange: setSorting,
      });
+
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">

@@ -1,13 +1,12 @@
-import { useReactTable, getCoreRowModel, flexRender, getSortedRowModel } from "@tanstack/react-table";
-import DATA from "../../../data.json";
+import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel, getSortedRowModel } from "@tanstack/react-table";
+import datas from "../../../datas.json";
 import { useMemo, useState } from "react";
 
 export default function AdminTable() {
-    const data = useMemo(() => DATA, []);
+    const data = useMemo(() => datas, []);
 
     const columns = [
         { header: "Title", accessorKey: "title" },
-        { header: "Author", accessorKey: "author" },
         { header: "Status", accessorKey: "status" },
         { header: "Staff", accessorKey: "staff" },
         { header: "Priority", accessorKey: "priority" },
@@ -16,14 +15,22 @@ export default function AdminTable() {
         { header: "Updated at", accessorKey: "updatedAt" },
     ];
 
+    const [filtering, setFiltering] = useState('')
     const [sorting, setSorting] = useState([])
 
-    const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel(), getSortedRowModel: getSortedRowModel(), 
-        state: {sorting: sorting,}, onSortingChange: setSorting,
-    });
+    const table = useReactTable({ data, columns, getCoreRowModel: getCoreRowModel(), getFilteredRowModel: getFilteredRowModel(), getSortedRowModel: getSortedRowModel(), 
+        state:{globalFilter: filtering,
+                sorting: sorting,
+        },
+        
+        onGlobalFilterChange: setFiltering,
+        onSortingChange: setSorting,
+     });
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
+            <input type = "text" value={filtering} onChange={(e) => setFiltering(e.target.value)}placeholder="Search..." className="w-full p-3 mb-4 text-sm text-gray-700 bg-gray-100 
+            border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             {/* Wrapper to enforce full-width */}
             <div className="overflow-x-auto w-full border border-gray-200 bg-white shadow-md rounded-lg">
                 {/* Table with enforced full-width */}
@@ -36,15 +43,10 @@ export default function AdminTable() {
                                         key={header.id}
                                         onClick={header.column.getToggleSortingHandler()}
                                         className="px-4 py-3 text-xs font-medium uppercase tracking-wider text-left w-auto">
-<<<<<<< Updated upstream
-
-                                        {flexRender(
-=======
                                             
-                                        {header.isPlaceholder ? null : 
+                                            {header.isPlaceholder ? null : 
                                         (<div>
                                             {flexRender(
->>>>>>> Stashed changes
                                             header.column.columnDef.header,
                                             header.getContext()
                                             )}
