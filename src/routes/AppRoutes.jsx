@@ -76,18 +76,6 @@ const AppRoutes = createBrowserRouter([
                 ),
             },
             {
-                path: 'feedbacks',
-                element: (
-                    <ClientDashboardFeedbacksPage />
-                )
-            },
-            {
-                path: 'feedbacks/:feedback_id',
-                element: (
-                    <ClientDashboardViewFeedbackPage />
-                )
-            },
-            {
                 path: 'feedbacks/create',
                 element: (
                     <FeedbackFormPage />
