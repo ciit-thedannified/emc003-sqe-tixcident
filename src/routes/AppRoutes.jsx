@@ -15,14 +15,8 @@ import AdminDashboardFeedbacksPage from "../pages/admin/screens/AdminDashboardFe
 import AdminDashboardIssuesPage from "../pages/admin/screens/AdminDashboardIssuesPage.jsx";
 import AdminDashboardViewIssuePage from "../pages/admin/screens/AdminDashboardViewIssuePage.jsx";
 import AdminDashboardUsersPage from "../pages/admin/screens/AdminDashboardUsersPage.jsx";
-
-function FeedbackFormPage() {
-    return null;
-}
-
-function IssueFormPage() {
-    return null;
-}
+import IssueFormPage from "../pages/forms/IssueFormPage.jsx";
+import FeedbackFormPage from "../pages/forms/FeedbackFormPage.jsx";
 
 const AppRoutes = createBrowserRouter([
     // ROOT - INITIAL DIRECTORY
@@ -76,7 +70,7 @@ const AppRoutes = createBrowserRouter([
                 )
             },
             {
-                path: '/issues/create',
+                path: 'issues/create',
                 element: (
                     <IssueFormPage />
                 ),
