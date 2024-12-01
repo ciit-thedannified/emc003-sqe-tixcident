@@ -14,7 +14,7 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import AxiosConsumer from "../../contexts/AxiosContext.jsx";
 
-const issueSchema = z.object({
+const formSchema = z.object({
     title: z.string({
         required_error: "Please provide an feedback title.",
     })
@@ -50,7 +50,7 @@ export default function FeedbackFormPage() {
         control,
         formState: {errors},
     } = useForm({
-        resolver: zodResolver(issueSchema),
+        resolver: zodResolver(formSchema),
     });
 
     const onSubmit = (data) => {
