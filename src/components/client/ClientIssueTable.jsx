@@ -12,6 +12,28 @@ import {useNavigate} from "react-router-dom";
 import {DateTime} from "luxon";
 import {IssueTypes, PriorityTypes, StatusTypes} from "../../data/enums.js";
 
+
+useEffect(() => {
+    async function fetchData() {
+        await axiosInstance.get('/issues', {
+            data: {
+                author: localStorage.userId,
+            },
+            params: {
+                page: 1,
+                items: 1000,
+            }
+        }).then(response => {
+            const data = response.data;
+            setData(data);
+        }).catch(error => {
+            console.error(error);
+        });
+    }
+
+    fetchData();
+}, []);
+
 export default function ClientIssueTable() {
     const navigate = useNavigate();
     const data = useMemo(() => datas, []);

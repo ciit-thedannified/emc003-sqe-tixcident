@@ -2,6 +2,28 @@ import { useReactTable, getCoreRowModel, flexRender, getFilteredRowModel, getSor
 import datas from "../../data/tixcident.issues.json";
 import { useMemo, useState } from "react";
 
+
+useEffect(() => {
+    async function fetchData() {
+        await axiosInstance.get('/issues', {
+            data: {
+                author: localStorage.userId,
+            },
+            params: {
+                page: 1,
+                items: 1000,
+            }
+        }).then(response => {
+            const data = response.data;
+            setData(data);
+        }).catch(error => {
+            console.error(error);
+        });
+    }
+
+    fetchData();
+}, []);
+
 export default function AdminTable() {
     const data = useMemo(() => datas, []);
 
