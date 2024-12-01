@@ -6,8 +6,6 @@ import ClientDashboard from "../pages/client/ClientDashboard.jsx";
 import ClientDashboardHomePage from "../pages/client/screens/ClientDashboardHomePage.jsx";
 import ClientDashboardTicketsPage from "../pages/client/screens/ClientDashboardTicketsPage.jsx";
 import ClientDashboardViewTicketPage from "../pages/client/screens/ClientDashboardViewTicketPage.jsx";
-import ClientDashboardFeedbacksPage from "../pages/client/screens/ClientDashboardFeedbacksPage.jsx";
-import ClientDashboardViewFeedbackPage from "../pages/client/screens/ClientDashboardViewFeedbackPage.jsx";
 import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
 import AdminDashboardHomePage from "../pages/admin/screens/AdminDashboardHomePage.jsx";
 import AdminDashboardViewFeedbackPage from "../pages/admin/screens/AdminDashboardViewFeedbackPage.jsx";
@@ -17,6 +15,7 @@ import AdminDashboardViewIssuePage from "../pages/admin/screens/AdminDashboardVi
 import AdminDashboardUsersPage from "../pages/admin/screens/AdminDashboardUsersPage.jsx";
 import IssueFormPage from "../pages/forms/IssueFormPage.jsx";
 import FeedbackFormPage from "../pages/forms/FeedbackFormPage.jsx";
+import ClientDashboardProfilePage from "../pages/client/screens/ClientDashboardProfilePage.jsx";
 
 const AppRoutes = createBrowserRouter([
     // ROOT - INITIAL DIRECTORY
@@ -76,15 +75,15 @@ const AppRoutes = createBrowserRouter([
                 ),
             },
             {
-                path: 'feedbacks/create',
+                path: 'feedback',
                 element: (
                     <FeedbackFormPage />
                 )
             },
             {
-                path: 'feedbacks/create',
+                path: 'profile',
                 element: (
-                    <FeedbackFormPage />
+                    <ClientDashboardProfilePage />
                 )
             },
         ]

@@ -1,4 +1,4 @@
-import React from "react";
+import {UserCircleIcon} from "@heroicons/react/24/solid";
 
 export default function UserProfile() {
   return (
@@ -6,14 +6,7 @@ export default function UserProfile() {
       {/* Left Section: Profile Picture */}
       <div className="w-full lg:w-1/3 flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md">
         <div className="relative">
-          <img
-            src="https://via.placeholder.com/150"
-            alt="Profile"
-            className="w-32 h-32 rounded-full object-cover border-4 border-yellow-500"
-          />
-          <button className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white text-sm font-medium px-3 py-1 rounded-lg hover:bg-yellow-600 mt-4">
-            Change Photo
-          </button>
+          <UserCircleIcon className="w-80 h-80 text-black" />
         </div>
       </div>
 
@@ -30,7 +23,8 @@ export default function UserProfile() {
                 </label>
                 <input
                   type="text"
-                  placeholder="user.name"
+                  placeholder="Username"
+                  disabled={true}
                   className="mt-1 p-2 w-full border rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
                 />
               </div>
@@ -41,6 +35,7 @@ export default function UserProfile() {
                 <input
                   type="email"
                   placeholder="user@example.com"
+                  disabled={true}
                   className="mt-1 p-2 w-full border rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
                 />
               </div>
@@ -51,7 +46,7 @@ export default function UserProfile() {
               </label>
               <input
                 type="text"
-                placeholder="John"
+                placeholder="Enter display name"
                 className="mt-1 p-2 w-full border rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500"
               />
             </div>

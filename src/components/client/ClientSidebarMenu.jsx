@@ -19,7 +19,7 @@ const ClientSidebarMenu = [
   {
     label: "Submit Feedback",
     icon: <ChatBubbleOvalLeftEllipsisIcon className="w-6 h-6 text-white" />,
-    link: '/u/feedbacks/create'
+    link: '/u/feedback'
   },
 ];
 
