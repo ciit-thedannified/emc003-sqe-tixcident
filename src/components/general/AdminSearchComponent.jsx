@@ -33,13 +33,13 @@ const AdminSearchComponent = ({ onSelect }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4">
+    <div className="max-w-2xl mx-auto">
       <input
         type="text"
         placeholder="Search staff..."
         value={searchQuery}
         onChange={(e) => handleSearch(e.target.value)}
-        className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 text-gray-900 caret-gray-700"
+        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100 text-gray-900 caret-gray-700"
       />
       <ul className="mt-4 space-y-2">
         {results.length > 0 ? (
