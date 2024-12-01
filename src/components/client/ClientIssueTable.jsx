@@ -133,10 +133,14 @@ export default function ClientIssueTable() {
                                         key={cell.id}
                                         className="px-4 py-4 text-gray-700 w-auto"
                                     >
-                                        {flexRender(
-                                            cell.column.columnDef.cell,
-                                            cell.getContext()
-                                        )}
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-3">
+                                            {
+                                                flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )
+                                            }
+                                        </p>
                                     </td>
                                 ))}
                             </tr>
