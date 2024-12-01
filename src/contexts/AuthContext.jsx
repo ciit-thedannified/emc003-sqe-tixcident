@@ -7,6 +7,7 @@ import {
 
 import {
     onAuthStateChanged,
+    onIdTokenChanged
 } from "firebase/auth"
 
 import {
@@ -20,10 +21,37 @@ function useAuth() {
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
-        return onAuthStateChanged(Authentication, user => {
-            setCurrentUser(user);
-            setAuthenticated(user != null);
-        });
+        let authStateChanged;
+        let idTokenChanged;
+
+        async function handleStateChanges() {
+            authStateChanged = onAuthStateChanged(Authentication, async user => {
+                setCurrentUser(user);
+                setAuthenticated(user != null);
+
+                if (user) {
+                    return localStorage.setItem("userId", user.uid);
+                }
+                else {
+                    return localStorage.removeItem("userId");
+                }
+            });
+
+            idTokenChanged = onIdTokenChanged(Authentication, async user => {
+                if (!user) {
+                    return localStorage.removeItem('authToken');
+                }
+
+                localStorage.setItem('authToken', await user.getIdToken());
+            });
+        }
+
+        handleStateChanges();
+
+        return () => {
+            authStateChanged.unsubscribe();
+            idTokenChanged.unsubscribe();
+        }
     }, []);
 
     return {authenticated, currentUser}
