@@ -25,7 +25,11 @@ export default function ClientDashboardViewTicketPage() {
 
     useEffect(() => {
         async function fetchMessages() {
-            await axiosInstance.get(`/issues/${issue_id}/`)
+            await axiosInstance.get(`/issues/`, {
+                params: {
+                    issue_id
+                }
+            })
                 .then(response => {
                     if (response.status === 200) {
                         const data = response.data;
@@ -71,7 +75,7 @@ export default function ClientDashboardViewTicketPage() {
                 <div className="w-2/3 space-y-2">
                     <h1 className="text-3xl font-bold text-gray-900">{title ?? "Issue Title"}</h1>
                     <p className="text-gray-800">
-                        Submitted by <span className="font-semibold">{!displayName ? `${displayName} (@${username ?? "Unknown Author"})` : `@${username ?? `Unknown Author`}`}</span> on {createdAt ?? "Unknown Date"}
+                        Submitted by <span className="font-semibold">{displayName !== null ? `${displayName} (@${username ?? "Unknown Author"})` : `@${username ?? `Unknown Author`}`}</span> on {createdAt ?? "Unknown Date"}
                     </p>
                     <p className="text-gray-800">
                         Status &nbsp; <Tags text={status} bgColor="gray"/> &nbsp; &nbsp;
