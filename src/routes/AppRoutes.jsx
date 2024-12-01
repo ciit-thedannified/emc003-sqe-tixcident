@@ -11,6 +11,7 @@ import ClientDashboardTicketsPage from "../pages/client/screens/ClientDashboardT
 import ClientDashboardViewTicketPage from "../pages/client/screens/ClientDashboardViewTicketPage.jsx";
 import ClientDashboardFeedbacksPage from "../pages/client/screens/ClientDashboardFeedbacksPage.jsx";
 import ClientDashboardViewFeedbackPage from "../pages/client/screens/ClientDashboardViewFeedbackPage.jsx";
+import SplashScreen from "../pages/splash.jsx";
 
 function FeedbackFormPage() {
     return null;
@@ -21,7 +22,7 @@ const AppRoutes = createBrowserRouter([
     {
         path: '/',
         element: (
-            <ClientDashboard />
+            <SplashScreen/>
         )
     },
     // ROOT - LOGIN PAGE
