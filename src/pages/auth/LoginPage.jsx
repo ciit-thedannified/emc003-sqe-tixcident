@@ -4,7 +4,6 @@ import {Link, useNavigate} from "react-router-dom";
 import LogoBox from '../../assets/images/TXIDENT.png';
 import "../../assets/css/login.css";
 import {loginAccount} from "../../services/authServices.js";
-import {useAuth} from "../../contexts/AuthContext.jsx";
 
 export default function LoginPage() {
     const navigate = useNavigate();

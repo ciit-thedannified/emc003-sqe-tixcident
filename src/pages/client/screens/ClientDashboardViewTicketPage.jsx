@@ -32,15 +32,16 @@ export default function ClientDashboardViewTicketPage() {
                     <h1 className="text-3xl font-bold text-gray-900">
                         Issue Title
                     </h1>
-                    <p>Submitted by (display name) (@username) on (submission date)</p>
-                    <p> Status <Tags text="Invalid" bgColor="gray"/> &nbsp; Priority <Tags text="None" bgColor="gray"/>
+                    <p class="text-gray-800">Submitted by <span className="font-semibold">(display name)</span> (@username) on (submission date)</p>
+                    <p class="text-gray-800">
+                        Status <Tags text="Invalid" bgColor="gray" /> &nbsp; Priority <Tags text="None" bgColor="gray" />
                     </p>
 
                     <div className="w-full h-px bg-gray-300"></div>
 
-                    <p className="text-gray-900"> Tags: </p>
+                    <p className="text-gray-900 font-semibold"> Tags: </p>
 
-                    <p className="text-gray-900"> Issue Description: </p>
+                    <p className="text-gray-900 font-semibold"> Issue Description: </p>
                     <p className="text-gray-900">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
@@ -62,7 +63,17 @@ export default function ClientDashboardViewTicketPage() {
                         non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                     </p>
                 </div>
-                <div className="w-1/3 max-h-screen bg-gray-900">
+                <div className="flex w-1/3 max-h-screen">
+                    <div class="border-2 border-gray-300 m-2">
+                    <h1 className="text-3xl font-bold text-gray-900 text-center m-2">Messages</h1>
+                    <div class="flex flex-col border-2 border-gray-300 text-gray-900 m-2">
+                        <div className="flex-grow overflow-y-scroll max-h-screen">punyeta</div>
+                    </div>
+                    <textarea className="w-[95%] bg-gray-200 p-2 rounded text-gray-900 m-1.5" rows="2" placeholder="Enter your text here"></textarea>
+                    <button className="w-[95%] m-2 px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition disabled:bg-gray-300">
+                        Send
+                    </button>
+                    </div>
                 </div>
             </div>
         </div>
