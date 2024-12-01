@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
-const AdminSearchComponent = () => {
+const AdminSearchComponent = ({ onSelect }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
-
 
   const users = [
     { id: 1, name: "John Doe" },
@@ -11,16 +10,11 @@ const AdminSearchComponent = () => {
     { id: 3, name: "Alice Johnson" },
   ];
 
-  const items = [
-    { id: 1, name: "Laptop" },
-    { id: 2, name: "Headphones" },
-    { id: 3, name: "Smartphone" },
-  ];
-
   const handleSearch = (query) => {
     setSearchQuery(query);
+
     if (!query) {
-      setResults([]);
+      setResults([]); 
       return;
     }
 
@@ -28,34 +22,38 @@ const AdminSearchComponent = () => {
     const filteredUsers = users.filter((user) =>
       user.name.toLowerCase().includes(lowerQuery)
     );
-    const filteredItems = items.filter((item) =>
-      item.name.toLowerCase().includes(lowerQuery)
-    );
 
-    setResults([...filteredUsers, ...filteredItems]);
+    setResults(filteredUsers); 
+  };
+
+  const handleSelect = (user) => {
+    onSelect(user); 
+    setSearchQuery(""); 
+    setResults([]); 
   };
 
   return (
     <div className="max-w-md mx-auto p-4">
       <input
         type="text"
-        placeholder="Search users or items..."
+        placeholder="Search staff..."
         value={searchQuery}
         onChange={(e) => handleSearch(e.target.value)}
-        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 text-gray-900 caret-gray-700"
       />
       <ul className="mt-4 space-y-2">
         {results.length > 0 ? (
-          results.map((result) => (
+          results.map((user) => (
             <li
-              key={result.id}
-              className="px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg text-gray-900"
+              key={user.id}
+              onClick={() => handleSelect(user)}
+              className="px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 cursor-pointer hover:bg-gray-200"
             >
-              {result.name}
+              {user.name}
             </li>
           ))
         ) : (
-          <li className="text-gray-500">No results found.</li>
+          searchQuery && <li className="text-gray-500">No results found.</li>
         )}
       </ul>
     </div>
