@@ -8,7 +8,7 @@ import {
     ISSUE_TITLE_MAX_LENGTH,
     ISSUE_TITLE_MIN_LENGTH
 } from "../../data/constants.js";
-import {ISSUE_TYPES} from "../../data/enums.js";
+import {ISSUE_TYPES, IssueTypes} from "../../data/enums.js";
 
 const issueSchema = z.object({
     title: z.string({
@@ -79,7 +79,13 @@ export default function IssueFormPage() {
                                 Title
                             </label>
                             <input
-                                className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                                className={
+                                    errors.title ?
+                                        "bg-gray-100 border border-red-500 rounded py-1 px-3 block focus:ring-red-500 focus:border-red-500 text-gray-700 w-full"
+                                        :
+                                        "bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                                }
+
                                 type="text" id="title" placeholder="Subject" {...register("title")}/>
                             {
                                 errors.title && <span className="text-red-600">{errors.title.message}</span>
@@ -91,10 +97,15 @@ export default function IssueFormPage() {
                                 Type
                             </label>
                             <select
-                                className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                                className={
+                                    errors.type ?
+                                        "bg-gray-100 border border-red-500 rounded py-1 px-3 block focus:ring-red-500 focus:border-red-500 text-gray-700 w-full"
+                                        :
+                                        "bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                                }
                                 id="type" {...register("type")}>
-                                {ISSUE_TYPES.map((type, index) => {
-                                    return <option key={index} value={type}>{type}</option>;
+                                {Object.values(IssueTypes).map((type, index) => {
+                                    return <option key={index} value={type.value}>{type.label}</option>;
                                 })}
                             </select>
                             {
@@ -102,7 +113,7 @@ export default function IssueFormPage() {
                             }
                         </div>
                         <div className="mt-8 space-y-3">
-                            <label htmlFor="title"
+                            <label htmlFor="tags"
                                    className="text-md text-gray-700 block mb-1 font-medium">
                                 Tags
                             </label>
@@ -116,7 +127,12 @@ export default function IssueFormPage() {
                                 Description
                             </label>
                             <textarea
-                                className="bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                                className={
+                                    errors.description ?
+                                        "bg-gray-100 border border-red-500 rounded py-1 px-3 block focus:ring-red-500 focus:border-red-500 text-gray-700 w-full"
+                                        :
+                                        "bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                                }
                                 id="description" rows='4' placeholder="Provide a detailed explanation of your issue." {...register("description")}/>
                             {
                                 errors.description && <span className="text-red-600">{errors.description.message}</span>
