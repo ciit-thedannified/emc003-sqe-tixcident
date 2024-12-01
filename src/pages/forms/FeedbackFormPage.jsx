@@ -10,6 +10,9 @@ import {
 } from "../../data/constants.js";
 import {FEEDBACK_TYPES, FeedbackTypes} from "../../data/enums.js";
 import StarRating from "../../components/general/StarRating.jsx";
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
+import AxiosConsumer from "../../contexts/AxiosContext.jsx";
 
 const issueSchema = z.object({
     title: z.string({
@@ -28,7 +31,7 @@ const issueSchema = z.object({
         .min(1)
         .max(5),
 
-    description: z.string({
+    message: z.string({
         required_error: "Please provide an issue description.",
     })
         .min(FEEDBACK_MESSAGE_MIN_LENGTH)
@@ -37,6 +40,9 @@ const issueSchema = z.object({
 });
 
 export default function FeedbackFormPage() {
+    const axiosInstance = AxiosConsumer();
+    const navigate = useNavigate();
+    const [submitting, setSubmitting] = useState(false);
 
     const {
         register,
@@ -47,23 +53,40 @@ export default function FeedbackFormPage() {
         resolver: zodResolver(issueSchema),
     });
 
-
     const onSubmit = (data) => {
-        const promise = new Promise((resolve, reject) => {
-            setTimeout(() => resolve(), 1000);
-        })
+        setSubmitting(true);
 
-        toaster.create(promise, {
+        const promise = new Promise((resolve, reject) => {
+            axiosInstance.post('/feedbacks', data)
+                .then(response => {
+                    if (response.status === 201) {
+                        resolve("Feedback submitted successfully.");
+
+                        setSubmitting(false);
+                        navigate('../');
+                    }
+
+                    setSubmitting(false);
+                    reject("Something went wrong with submitting the feedback.");
+                })
+                .catch(error => {
+                    setSubmitting(false);
+                    reject(error);
+                })
+        });
+
+        toaster.promise(promise, {
             success: {
-                title: "Issue submitted successfully.",
+                title: "Thank you for your feedback!",
+                description: "Redirecting you to the dashboard...",
             },
             error: {
                 title: "Something went wrong.",
-                description: "Please try submitting another ticket later."
+                description: "Please try submitting another feedback later."
             },
             loading: {
                 title: "Submitting...",
-                description: "Please wait while we submit your ticket."
+                description: "Please wait while we submit your feedback."
             }
         });
     }
@@ -135,23 +158,25 @@ export default function FeedbackFormPage() {
                         <div className="mt-8 space-y-3">
                             <label htmlFor="description"
                                    className="text-md text-gray-700 block mb-1 font-medium">
-                                Description
+                                Message
                             </label>
                             <textarea
                                 className={
-                                    errors.description ?
+                                    errors.message ?
                                         "bg-gray-100 border border-red-500 rounded py-1 px-3 block focus:ring-red-500 focus:border-red-500 text-gray-700 w-full"
                                         :
                                         "bg-gray-100 border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
                                 }
                                 id="description" rows='4'
-                                placeholder="Provide your feedback comments here." {...register("description")}/>
+                                placeholder="Provide your feedback comments here." {...register("message")}/>
                             {
-                                errors.description && <span className="text-red-600">{errors.description.message}</span>
+                                errors.message && <span className="text-red-600">{errors.message.message}</span>
                             }
                         </div>
                         <div className="mt-8 space-y-3">
-                            <button className="w-full bg-blue-500 p-3 font-bold text-white rounded-xl" type="submit">
+                            <button
+                                className={`w-full ${!submitting ? 'bg-blue-500' : 'bg-blue-200'} p-3 font-bold text-white rounded-xl`}
+                                type="submit" disabled={submitting}>
                                 Submit
                             </button>
                         </div>

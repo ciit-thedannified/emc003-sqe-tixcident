@@ -1,7 +1,7 @@
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
-import {Toaster, toaster} from '../../components/ui/toaster.jsx';
+import {toaster} from '../../components/ui/toaster.jsx';
 import {
     ISSUE_DESCRIPTION_MAX_LENGTH,
     ISSUE_DESCRIPTION_MIN_LENGTH,
@@ -9,6 +9,9 @@ import {
     ISSUE_TITLE_MIN_LENGTH
 } from "../../data/constants.js";
 import {ISSUE_TYPES, IssueTypes} from "../../data/enums.js";
+import AxiosConsumer from "../../contexts/AxiosContext.jsx";
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 const issueSchema = z.object({
     title: z.string({
@@ -32,6 +35,9 @@ const issueSchema = z.object({
 })
 
 export default function IssueFormPage() {
+    const axiosInstance = AxiosConsumer();
+    const navigate = useNavigate();
+    const [submitting, setSubmitting] = useState(false);
 
     const {
         register,
@@ -41,15 +47,40 @@ export default function IssueFormPage() {
         resolver: zodResolver(issueSchema),
     });
 
-
     const onSubmit = (data) => {
-        const promise = new Promise((resolve, reject) => {
-            setTimeout(() => resolve(), 1000);
-        })
+        setSubmitting(true);
 
-        toaster.create(promise, {
+        console.log(data);
+
+        if (data.tags !== '')
+            data.tags = data.tags.split(';').map(tag => tag.toLowerCase().trim());
+        else
+            data.tags = [];
+
+        const promise = new Promise((resolve, reject) => {
+            axiosInstance.post('/issues', data)
+                .then(response => {
+                    if (response.status === 201) {
+                        let issue_id = response.data.id;
+                        resolve("Issue submitted successfully.");
+
+                        setSubmitting(false);
+                        navigate(`../issues/${issue_id}`);
+                    }
+
+                    setSubmitting(false);
+                    reject("Something went wrong with submitting the issue.");
+                })
+                .catch(error => {
+                    setSubmitting(false);
+                    reject(error);
+                })
+        });
+
+        toaster.promise(promise, {
             success: {
-                title: "Issue submitted successfully.",
+                title: "Issue submitted successfully!",
+                description: "Redirecting to your issue..."
             },
             error: {
                 title: "Something went wrong.",
@@ -139,7 +170,7 @@ export default function IssueFormPage() {
                             }
                         </div>
                         <div className="mt-8 space-y-3">
-                            <button className="w-full bg-blue-500 p-3 font-bold text-white rounded-xl" type="submit">
+                            <button className={`w-full ${!submitting ? 'bg-blue-500' : 'bg-blue-200'} p-3 font-bold text-white rounded-xl`} type="submit" disabled={submitting}>
                                 Submit
                             </button>
                         </div>
