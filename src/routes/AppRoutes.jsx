@@ -16,13 +16,14 @@ import AdminDashboardUsersPage from "../pages/admin/screens/AdminDashboardUsersP
 import IssueFormPage from "../pages/forms/IssueFormPage.jsx";
 import FeedbackFormPage from "../pages/forms/FeedbackFormPage.jsx";
 import ClientDashboardProfilePage from "../pages/client/screens/ClientDashboardProfilePage.jsx";
+import App from "../App.jsx";
 
 const AppRoutes = createBrowserRouter([
     // ROOT - INITIAL DIRECTORY
     {
         path: '/',
         element: (
-            <ClientDashboard />
+            <App />
         )
     },
     // ROOT - LOGIN PAGE
