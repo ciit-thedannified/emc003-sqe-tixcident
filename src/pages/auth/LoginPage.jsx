@@ -1,11 +1,12 @@
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 
 import LogoBox from '../../assets/images/TXIDENT.png';
 import "../../assets/css/login.css";
+import {loginAccount} from "../../services/authServices.js";
+import {useAuth} from "../../contexts/AuthContext.jsx";
 
 export default function LoginPage() {
-
     const navigate = useNavigate();
 
     const usernameField = useRef();
@@ -16,7 +17,10 @@ export default function LoginPage() {
 
         const [email, password] = [usernameField.current.value, passwordField.current.value];
 
-
+        await loginAccount(email, password)
+            .then(() => {
+                navigate("/u");
+            });
     };
 
     return (
