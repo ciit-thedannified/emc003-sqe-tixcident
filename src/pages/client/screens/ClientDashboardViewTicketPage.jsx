@@ -1,96 +1,110 @@
-import { ChevronLeftIcon } from "@heroicons/react/24/solid/index.js";
-import { Button } from "../../../components/ui/button.jsx";
+import {ChevronLeftIcon} from "@heroicons/react/24/solid/index.js";
+import {Button} from "../../../components/ui/button.jsx";
 import Tags from "../../../components/Tags.jsx";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import IssueMessagesArea from "../../../components/general/IssueMessagesArea.jsx";
+import AxiosConsumer from "../../../contexts/AxiosContext.jsx";
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {toaster} from "../../../components/ui/toaster.jsx";
+import {DateTime} from "luxon";
+import {PriorityTypes, StatusTypes} from "../../../data/enums.js";
 
 export default function ClientDashboardViewTicketPage() {
-  return (
-    <div className="w-full">
-      <div className="flex justify-between">
-        <div className="flex items-center space-x-3">
-          <Button className="px-3 py-2 rounded-md shadow-sm text-blue-500 border hover:underline">
-            <ChevronLeftIcon className="h-6 w-6" aria-hidden="true" />
-            Go back to Issues
-          </Button>
-        </div>
-        <div className="flex items-center space-x-3">
-          <Button className="bg-red-500 px-3 py-2 rounded-md shadow-sm text-white border hover:underline">
-            <AiFillDelete className="h-6 w-6" aria-hidden="true" />
-            Delete Issue
-          </Button>
-          <Button className="bg-green-500 px-3 py-2 rounded-md shadow-sm text-white border hover:underline">
-            <AiFillEdit className="h-6 w-6" aria-hidden="true" />
-            Edit Issue
-          </Button>
-        </div>
-      </div>
+    const axiosInstance = AxiosConsumer();
+    const navigate = useNavigate();
+    const {issue_id} = useParams();
 
-      <div className="w-full h-px bg-gray-300 mt-4 mb-4"></div>
+    const [title, setTitle] = useState(null);
+    const [displayName, setDisplayName] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [status, setStatus] = useState(null);
+    const [createdAt, setCreatedAt] = useState(null);
+    const [priority, setPriority] = useState(null);
+    const [tags, setTags] = useState([]);
+    const [description, setDescription] = useState(null)
 
-      <div className="flex max-h-max bg-gray-100 border-4 gap-3 p-3">
-        <div className="w-2/3 space-y-2">
-          <h1 className="text-3xl font-bold text-gray-900">Issue Title</h1>
-          <p class="text-gray-800">
-            Submitted by <span className="font-semibold">(display name)</span>{" "}
-            (@username) on (submission date)
-          </p>
-          <p class="text-gray-800">
-            Status <Tags text="Invalid" bgColor="gray" /> &nbsp; Priority{" "}
-            <Tags text="None" bgColor="gray" />
-          </p>
+    useEffect(() => {
+        async function fetchMessages() {
+            await axiosInstance.get(`/issues/${issue_id}/`)
+                .then(response => {
+                    if (response.status === 200) {
+                        const data = response.data;
 
-          <div className="w-full h-px bg-gray-300"></div>
+                        setTitle(data.title);
+                        setDisplayName(data.author.displayName);
+                        setUsername(data.author.username);
+                        setStatus(Object.values(StatusTypes).find(status => data.status === status.value).label);
+                        setCreatedAt(DateTime.fromISO(data.createdAt).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS));
+                        setPriority(Object.values(PriorityTypes).find(priority => data.priority === priority.value).label);
+                        setTags(data.tags);
+                        setDescription(data.description);
+                    }
+                })
+                .catch(error => {
+                    toaster.create({
+                        type: "error",
+                        title: "Something went wrong.",
+                        description: "We could not fetch the issue information."
+                    });
+                });
+        }
 
-          <p className="text-gray-900 font-semibold"> Tags: </p>
+        fetchMessages()
+    }, [axiosInstance, issue_id]);
 
-          <p className="text-gray-900 font-semibold"> Issue Description: </p>
-          <p className="text-gray-900">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-
-          <p className="text-gray-900">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat. Duis aute irure dolor in reprehenderit in
-            voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum.
-          </p>
-        </div>
-        <div className="flex w-1/3 max-h-screen justify-center items-center">
-          <div className="border-2 border-gray-300 m-2 p-4 flex flex-col items-center">
-            <h1 className="text-3xl font-bold text-gray-900 text-center m-2">Messages</h1>
-
-
-            {/*Editable Area adjustments*/}
-            <div className="flex flex-col border-2 border-gray-300 text-gray-900 m-2 overflow-auto h-[400px] w-[400px] p-2">
+    return (
+        <div className="w-full">
+            <div className="flex justify-between">
+                <div className="flex items-center space-x-3">
+                    <Button className="px-3 py-2 rounded-md shadow-sm text-blue-500 border hover:underline"
+                        onClick={() => navigate("../issues")}
+                    >
+                        <ChevronLeftIcon className="h-6 w-6" aria-hidden="true"/>
+                        Go back to Issues
+                    </Button>
+                </div>
             </div>
 
-            <textarea
-              className="w-[95%] bg-gray-200 p-2 rounded text-gray-900 m-1.5"
-              rows="2"
-              placeholder="Enter your text here"
-            ></textarea>
-            <button className="w-[95%] m-2 px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition disabled:bg-gray-300">
-              Send
-            </button>
-          </div>
+            <div className="w-full h-px bg-gray-300 mt-4 mb-4"></div>
+
+            <div className="flex max-h-max bg-gray-100 border-4 gap-3 p-3">
+                <div className="w-2/3 space-y-2">
+                    <h1 className="text-3xl font-bold text-gray-900">{title ?? "Issue Title"}</h1>
+                    <p className="text-gray-800">
+                        Submitted by <span className="font-semibold">{!displayName ? `${displayName} (@${username ?? "Unknown Author"})` : `@${username ?? `Unknown Author`}`}</span> on {createdAt ?? "Unknown Date"}
+                    </p>
+                    <p className="text-gray-800">
+                        Status &nbsp; <Tags text={status} bgColor="gray"/> &nbsp; &nbsp;
+                        Priority &nbsp; <Tags text={priority} bgColor="gray"/>
+                    </p>
+
+                    <div className="w-full h-px bg-gray-300"></div>
+
+                    <p className="text-gray-900 font-semibold">
+                        Tags:
+                        {
+                            tags.length < 0 && <span> None </span>
+                        }
+                        {
+                            tags.length > 0 && tags.map((tag, index) => {
+                                return (
+                                    <span className="text-gray-500 m-2" key={index}> {tag} </span>
+                                )
+                            })
+                        }
+                    </p>
+
+
+                    <p className="text-gray-900 font-semibold"> Issue Description: </p>
+                    <p className="text-gray-900">
+                        {description ?? "Description"}
+                    </p>
+                </div>
+
+                <div className="flex w-1/3 max-h-screen justify-center items-center">
+                    <IssueMessagesArea />
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
