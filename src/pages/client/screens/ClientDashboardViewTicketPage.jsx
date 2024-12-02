@@ -21,27 +21,31 @@ export default function ClientDashboardViewTicketPage() {
     const [createdAt, setCreatedAt] = useState(null);
     const [priority, setPriority] = useState(null);
     const [tags, setTags] = useState([]);
-    const [description, setDescription] = useState(null)
+    const [description, setDescription] = useState(null);
+    const [assigneeDisplayName, setAssigneeDisplayName] = useState(null);
+    const [assigneeUsername, setAssigneeUsername] = useState(null);
 
     useEffect(() => {
         async function fetchMessages() {
-            await axiosInstance.get(`/issues/`, {
-                params: {
-                    issue_id
-                }
-            })
+            await axiosInstance.get(`/issues/${issue_id}/`)
                 .then(response => {
                     if (response.status === 200) {
                         const data = response.data;
 
                         setTitle(data.title);
-                        setDisplayName(data.author.displayName);
-                        setUsername(data.author.username);
+                        if (data.author !== null) {
+                            setDisplayName(data.author.displayName);
+                            setUsername(data.author.username);
+                        }
                         setStatus(Object.values(StatusTypes).find(status => data.status === status.value).label);
                         setCreatedAt(DateTime.fromISO(data.createdAt).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS));
                         setPriority(Object.values(PriorityTypes).find(priority => data.priority === priority.value).label);
                         setTags(data.tags);
                         setDescription(data.description);
+                        if (data.staff !== null) {
+                            setAssigneeDisplayName(data['staff'].displayName);
+                            setAssigneeUsername(data['staff'].username);
+                        }
                     }
                 })
                 .catch(error => {
@@ -75,7 +79,12 @@ export default function ClientDashboardViewTicketPage() {
                 <div className="w-2/3 space-y-2">
                     <h1 className="text-3xl font-bold text-gray-900">{title ?? "Issue Title"}</h1>
                     <p className="text-gray-800">
-                        Submitted by <span className="font-semibold">{displayName !== null ? `${displayName} (@${username ?? "Unknown Author"})` : `@${username ?? `Unknown Author`}`}</span> on {createdAt ?? "Unknown Date"}
+                        Submitted by <span
+                        className="font-semibold">{displayName !== null ? `${displayName} (@${username ?? "Unknown Author"})` : `@${username ?? `Unknown Author`}`}</span> on {createdAt ?? "Unknown Date"}
+                    </p>
+                    <p className="text-gray-800">
+                        Assigned to: <span
+                        className="font-semibold">{(assigneeDisplayName !== null) ? `${assigneeDisplayName} (@${assigneeUsername ?? "None"})` : `@${assigneeUsername ?? `None`}`}</span>
                     </p>
                     <p className="text-gray-800">
                         Status &nbsp; <Tags text={status} bgColor="gray"/> &nbsp; &nbsp;
@@ -106,7 +115,7 @@ export default function ClientDashboardViewTicketPage() {
                 </div>
 
                 <div className="flex w-1/3 max-h-screen justify-center items-center">
-                    <IssueMessagesArea />
+                    <IssueMessagesArea/>
                 </div>
             </div>
         </div>

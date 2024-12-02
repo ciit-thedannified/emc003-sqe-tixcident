@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
-import ClientNavigationBar from "../../components/client/ClientNavigationBar.jsx";
 import DashboardSidebar from "../../components/general/DashboardSidebar.jsx";
 import ClientSidebarMenu from "../../components/client/ClientSidebarMenu.jsx";
 import {Toaster} from "../../components/ui/toaster.jsx";
+import DashboardNavigationBar from "../../components/general/DashboardNavigationBar.jsx";
 
 export default function ClientDashboard() {
     return (
@@ -18,7 +18,7 @@ export default function ClientDashboard() {
             <div className="flex-1 flex flex-col">
                 {/* Navigation Bar */}
                 <div className="h-16">
-                    <ClientNavigationBar />
+                    <DashboardNavigationBar />
                 </div>
 
                 {/* Content Area */}

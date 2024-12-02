@@ -44,6 +44,7 @@ export default function ClientIssueTable() {
             {
                 header: "Status",
                 accessorKey: "status",
+                cell: value => (Object.values(StatusTypes).find(s => s.value === value.getValue())).label,
             },
             {
                 header: "Staff", accessorKey: "staff", cell: value => {
@@ -54,10 +55,12 @@ export default function ClientIssueTable() {
             {
                 header: "Priority",
                 accessorKey: "priority",
+                cell: value => (Object.values(PriorityTypes).find(p => p.value === value.getValue())).label,
             },
             {
                 header: "Type",
                 accessorKey: "type",
+                cell: value => (Object.values(IssueTypes).find(i => i.value === value.getValue())).label,
             },
             {
                 header: "Created at", accessorKey: "createdAt", cell: info =>
@@ -173,33 +176,35 @@ export default function ClientIssueTable() {
                     </tbody>
                 </table>
             </div>
-            <div className="flex space-x-2 mt-4">
-                <button
-                    onClick={() => table.setPageIndex(0)}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
-                >
-                    First Page
-                </button>
-                <button
-                    disabled={!table.getCanPreviousPage()}
-                    onClick={() => table.previousPage()}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
-                >
-                    Previous Page
-                </button>
-                <button
-                    disabled={!table.getCanNextPage()}
-                    onClick={() => table.nextPage()}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
-                >
-                    Next Page
-                </button>
-                <button
-                    onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
-                >
-                    Last Page
-                </button>
+            <div className="flex-1 w-full justify-between">
+                <div className="flex space-x-2 mt-4">
+                    <button
+                        onClick={() => table.setPageIndex(0)}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    >
+                        First Page
+                    </button>
+                    <button
+                        disabled={!table.getCanPreviousPage()}
+                        onClick={() => table.previousPage()}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    >
+                        Previous Page
+                    </button>
+                    <button
+                        disabled={!table.getCanNextPage()}
+                        onClick={() => table.nextPage()}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    >
+                        Next Page
+                    </button>
+                    <button
+                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    >
+                        Last Page
+                    </button>
+                </div>
             </div>
         </div>
     );

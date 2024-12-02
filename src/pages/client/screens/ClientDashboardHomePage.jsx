@@ -5,7 +5,6 @@ import ActiveTicketsPriority from "../../../components/ActiveTicketsPriority.jsx
 
 export default function ClientDashboardHomePage() {
 
-
     return (
         <>
             <div className="w-full font-bold text-gray-600 text-4xl mb-5">

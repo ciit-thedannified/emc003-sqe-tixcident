@@ -13,10 +13,14 @@ import {
 } from "../ui/dialog.jsx"
 import {logOutAccount} from "../../services/authServices.js";
 import {useNavigate} from "react-router-dom";
+import AuthConsumer from '../../contexts/AuthContext.jsx'
+import {useEffect, useState} from "react";
 
 export default function ClientNavigationBar() {
-
+    const { credentials } = AuthConsumer();
     const navigate = useNavigate();
+
+    const [username, setUsername] = useState("username");
 
     async function handleUserLogout() {
         await logOutAccount()
@@ -28,6 +32,10 @@ export default function ClientNavigationBar() {
     async function handleCreateIssue() {
         navigate("./issues/create");
     }
+
+    useEffect(() => {
+        setUsername(credentials?.username ?? username);
+    }, [credentials]);
 
     return (
         <div className="bg-gray-100 h-16 flex justify-between items-center px-6 shadow-sm">
@@ -59,7 +67,7 @@ export default function ClientNavigationBar() {
                 {/* User Info */}
                 <div className="flex items-center space-x-3">
                     <UserCircleIcon className="w-8 h-8 text-black"/>
-                    <span className="text-gray-700 font-medium">username</span>
+                    <span className="text-gray-700 font-medium">{username}</span>
                 </div>
 
                 {/* Divider */}
