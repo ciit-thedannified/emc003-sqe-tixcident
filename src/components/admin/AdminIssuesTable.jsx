@@ -3,21 +3,34 @@ import {
     getCoreRowModel,
     flexRender,
     getFilteredRowModel,
-    getSortedRowModel
+    getSortedRowModel, getPaginationRowModel
 } from "@tanstack/react-table";
 import datas from "../../data/tixcident.issues.json";
 import {useEffect, useMemo, useState} from "react";
 import {IssueTypes, PriorityTypes, StatusTypes} from "../../data/enums.js";
 import {DateTime} from "luxon";
-import {EyeIcon} from "@heroicons/react/24/solid/index.js";
+import {EyeIcon, PencilIcon} from "@heroicons/react/24/solid/index.js";
 import AxiosConsumer from "../../contexts/AxiosContext.jsx";
 import {useNavigate} from "react-router-dom";
+import {AiFillDelete} from "react-icons/ai";
+import {
+    DialogActionTrigger,
+    DialogBody, DialogCloseTrigger,
+    DialogContent,
+    DialogFooter,
+    DialogHeader, DialogRoot,
+    DialogTitle,
+    DialogTrigger
+} from "../ui/dialog.jsx";
+import {Button} from "../ui/button.jsx";
+import {toaster} from "../ui/toaster.jsx";
 
 
-export default function AdminTable() {
+export default function AdminIssuesTable() {
     const [data, setData] = useState([]);
     const axiosInstance = AxiosConsumer();
     const navigate = useNavigate();
+    const [refreshCount, setRefreshCount] = useState(0);
 
     useEffect(() => {
         async function fetchData() {
@@ -25,7 +38,6 @@ export default function AdminTable() {
                 params: {
                     page: 1,
                     items: 1000,
-                    authorId: localStorage.userId,
                 }
             }).then(response => {
                 const data = response.data;
@@ -36,7 +48,38 @@ export default function AdminTable() {
         }
 
         fetchData();
-    }, []);
+    }, [refreshCount]);
+
+    async function handleIssueDelete(issue_id) {
+        const promise = new Promise((resolve, reject) => {
+            axiosInstance.delete(`/issues/${issue_id}`)
+                .then(response => {
+                    if (response.status === 204) {
+                        resolve("Issue deleted successfully.");
+                        setRefreshCount(refreshCount + 1);
+                    }
+                    reject("Something went wrong with submitting the feedback.");
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+
+        toaster.promise(promise, {
+            success: {
+                title: "Issue deleted successfully!",
+                description: "Redirecting you to issue page...",
+            },
+            error: {
+                title: "Something went wrong.",
+                description: "Please try editing the user later."
+            },
+            loading: {
+                title: "Submitting...",
+                description: "Please wait while we edit the user."
+            }
+        });
+    }
 
     const columns = [
         {header: "Title", accessorKey: "title"},
@@ -49,7 +92,10 @@ export default function AdminTable() {
         },
         {
             header: "Staff", accessorKey: "staff", cell: info => {
-                return info.getValue() ?? "None";
+                if (info.getValue() === null) return "None";
+                else {
+                    return info.getValue()['username'];
+                }
             }
         },
         {
@@ -67,26 +113,65 @@ export default function AdminTable() {
             }
         },
         {
-            header: "Created at", accessorKey: "createdAt", cell: info => {
-                return DateTime.fromISO(info.getValue()['$date']).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS) ?? "None";
-            }
+            header: "Created at", accessorKey: "createdAt", cell: info =>
+                DateTime.fromISO(info.getValue()).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS) ?? "None"
+
         },
         {
-            header: "Updated at", accessorKey: "updatedAt", cell: info => {
-                return DateTime.fromISO(info.getValue()['$date']).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS) ?? "None";
-            }
+            header: "Updated at", accessorKey: "updatedAt", cell: info =>
+                DateTime.fromISO(info.getValue()).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS) ?? "None"
         },
         {
             header: "Actions", accessorKey: "_id", cell: info => {
-                const issue_id = info.getValue()["$oid"];
+                const issue_id = info.getValue();
 
                 return (
                     <div className="flex space-x-5">
                         <button onClick={() => {
-                            navigate(`/u/issues/${issue_id}`);
+                            navigate(`/a/issues/${issue_id}`);
                         }}>
                             <EyeIcon className="w-6 h-6"/>
                         </button>
+                        <button onClick={() => {
+                            navigate(`/a/issues/${issue_id}/edit`);
+                        }}>
+                            <PencilIcon className="w-6 h-6"/>
+                        </button>
+                        <DialogRoot>
+                            <DialogTrigger asChild>
+                                <Button variant="outline" size="sm">
+                                    <AiFillDelete className="w-6 h-6"/>
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle className="text-3xl font-medium text-gray-700">
+                                        Delete this issue?
+                                    </DialogTitle>
+                                </DialogHeader>
+                                <DialogBody>
+                                    <p>
+                                        Are you sure you want to delete this user? This action cannot be undone.
+                                    </p>
+                                </DialogBody>
+                                <DialogFooter>
+                                    <DialogActionTrigger asChild>
+                                        <Button className="bg-red-500 p-3 text-white"
+                                                onClick={() => {
+                                                    handleIssueDelete(issue_id)
+                                                }}>
+                                            Delete
+                                        </Button>
+                                    </DialogActionTrigger>
+                                    <DialogActionTrigger asChild>
+                                        <Button className="border p-3">
+                                            Cancel
+                                        </Button>
+                                    </DialogActionTrigger>
+                                </DialogFooter>
+                                <DialogCloseTrigger/>
+                            </DialogContent>
+                        </DialogRoot>
                     </div>
                 );
             }
@@ -102,6 +187,7 @@ export default function AdminTable() {
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
         state: {
             globalFilter: filtering,
             sorting: sorting,
@@ -148,7 +234,7 @@ export default function AdminTable() {
                     ))}
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                    {isLoading ?
+                    {!data.length ?
                         <tr>
                             <td colSpan={table.getAllColumns().length} className="px-4 py-4 text-center text-gray-500">
                                 No records found.
@@ -200,6 +286,12 @@ export default function AdminTable() {
                     className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
                 >
                     Last Page
+                </button>
+                <button
+                    onClick={() => setRefreshCount(refreshCount + 1)}
+                    className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                    Refresh
                 </button>
             </div>
         </div>

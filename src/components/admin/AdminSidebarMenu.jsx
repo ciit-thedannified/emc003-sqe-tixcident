@@ -9,7 +9,7 @@ const AdminSidebarMenu = [
   {
     label: "Tickets",
     icon: <TicketIcon className="w-6 h-6 text-white" />,
-    link: '/a/tickets'
+    link: '/a/issues'
   },
   {
     label: "Feedback",

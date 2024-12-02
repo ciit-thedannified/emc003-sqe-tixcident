@@ -16,6 +16,7 @@ import {
     DialogTitle,
     DialogTrigger
 } from "../../../components/ui/dialog.jsx";
+import {toaster} from "../../../components/ui/toaster.jsx";
 
 export default function AdminDashboardViewFeedbackPage() {
     const {feedback_id} = useParams();
@@ -59,6 +60,39 @@ export default function AdminDashboardViewFeedbackPage() {
         navigate('../feedbacks');
     }
 
+    async function handleDeleteFeedback() {
+        const promise = new Promise((resolve, reject) => {
+            axiosInstance.delete(`/feedbacks/${feedback_id}`)
+                .then(response => {
+                    if (response.status === 204) {
+                        resolve("Issue deleted successfully.");
+
+                        navigate(`../feedbacks/`);
+                    }
+
+                    reject("Something went wrong with submitting the issue.");
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+
+        toaster.promise(promise, {
+            success: {
+                title: "Issue deleted successfully!",
+                description: "Redirecting to feedbacks table..."
+            },
+            error: {
+                title: "Something went wrong.",
+                description: "Please try deleting this feedback later."
+            },
+            loading: {
+                title: "Deleting feedback...",
+                description: "Please wait while we delete this feedback."
+            }
+        });
+    }
+
     return (
         <div className="w-full max-w-4xl mx-auto items-center">
             <div className="w-full">
@@ -92,7 +126,7 @@ export default function AdminDashboardViewFeedbackPage() {
                                 <DialogFooter>
                                     <DialogActionTrigger asChild>
                                         <Button className="bg-red-500 p-3 text-white"
-                                                onClick={() => {}}>
+                                                onClick={handleDeleteFeedback}>
                                             Delete
                                         </Button>
                                     </DialogActionTrigger>

@@ -1,11 +1,13 @@
 import { Outlet } from "react-router-dom";
-import AdminNavigationBar from "../../components/admin/AdminNavigationBar.jsx";
 import DashboardSidebar from "../../components/general/DashboardSidebar.jsx";
 import AdminSidebarMenu from "../../components/admin/AdminSidebarMenu.jsx";
+import DashboardNavigationBar from "../../components/general/DashboardNavigationBar.jsx";
+import {Toaster} from "../../components/ui/toaster.jsx";
 
 export default function AdminDashboard() {
     return (
         <div className="flex h-screen w-screen">
+            <Toaster />
             {/* Sidebar */}
 
             <div className="w-64">
@@ -16,7 +18,7 @@ export default function AdminDashboard() {
             <div className="flex-1 flex flex-col">
                 {/* Navigation Bar */}
                 <div className="h-16">
-                    <AdminNavigationBar />
+                    <DashboardNavigationBar />
                 </div>
 
                 {/* Content Area */}

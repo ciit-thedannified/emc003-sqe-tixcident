@@ -1,4 +1,4 @@
-import {ChevronLeftIcon} from "@heroicons/react/24/solid/index.js";
+import {ArrowPathIcon, ChevronLeftIcon} from "@heroicons/react/24/solid/index.js";
 import {Button} from "../../../components/ui/button.jsx";
 import Tags from "../../../components/Tags.jsx";
 import IssueMessagesArea from "../../../components/general/IssueMessagesArea.jsx";
@@ -31,7 +31,11 @@ export default function AdminDashboardViewIssuePage() {
     const [createdAt, setCreatedAt] = useState(null);
     const [priority, setPriority] = useState(null);
     const [tags, setTags] = useState([]);
-    const [description, setDescription] = useState(null)
+    const [description, setDescription] = useState(null);
+    const [assigneeDisplayName, setAssigneeDisplayName] = useState(null);
+    const [assigneeUsername, setAssigneeUsername] = useState(null);
+
+    const [refreshCount, setRefreshCount] = useState(0);
 
     useEffect(() => {
         async function fetchMessages() {
@@ -41,13 +45,19 @@ export default function AdminDashboardViewIssuePage() {
                         const data = response.data;
 
                         setTitle(data.title);
-                        setDisplayName(data.author.displayName);
-                        setUsername(data.author.username);
+                        if (data.author !== null) {
+                            setDisplayName(data.author.displayName);
+                            setUsername(data.author.username);
+                        }
                         setStatus(Object.values(StatusTypes).find(status => data.status === status.value).label);
                         setCreatedAt(DateTime.fromISO(data.createdAt).toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS));
                         setPriority(Object.values(PriorityTypes).find(priority => data.priority === priority.value).label);
                         setTags(data.tags);
                         setDescription(data.description);
+                        if (data.staff !== null) {
+                            setAssigneeDisplayName(data['staff'].displayName);
+                            setAssigneeUsername(data['staff'].username);
+                        }
                     }
                 })
                 .catch(error => {
@@ -60,7 +70,38 @@ export default function AdminDashboardViewIssuePage() {
         }
 
         fetchMessages()
-    }, [axiosInstance, issue_id]);
+    }, [axiosInstance, issue_id, refreshCount]);
+
+    async function handleIssueDelete() {
+        const promise = new Promise((resolve, reject) => {
+            axiosInstance.delete(`/issues/${issue_id}`)
+                .then(response => {
+                    if (response.status === 204) {
+                        resolve("Issue deleted successfully.");
+                        navigate('../issues')
+                    }
+                    reject("Something went wrong with submitting the feedback.");
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+
+        toaster.promise(promise, {
+            success: {
+                title: "Issue deleted successfully!",
+                description: "Redirecting you to issue page...",
+            },
+            error: {
+                title: "Something went wrong.",
+                description: "Please try editing the user later."
+            },
+            loading: {
+                title: "Submitting...",
+                description: "Please wait while we edit the user."
+            }
+        });
+    }
 
     return (
         <div className="w-full">
@@ -95,7 +136,7 @@ export default function AdminDashboardViewIssuePage() {
                             <DialogFooter>
                                 <DialogActionTrigger asChild>
                                     <Button className="bg-red-500 p-3 text-white"
-                                            /*onClick={}*/>
+                                            onClick={handleIssueDelete}>
                                         Delete
                                     </Button>
                                 </DialogActionTrigger>
@@ -109,9 +150,15 @@ export default function AdminDashboardViewIssuePage() {
                         </DialogContent>
                     </DialogRoot>
 
-                    <Button className="bg-green-500 px-3 py-2 rounded-md shadow-sm text-white border hover:underline">
-                        <AiFillEdit className="h-6 w-6" aria-hidden="true"/>
+                    <Button className="bg-green-500 px-3 py-2 rounded-md shadow-sm text-white border hover:underline" onClick={() => navigate('./edit')}>
+                        <AiFillEdit className="h-6 w-6" aria-hidden="true" />
                         Edit Issue
+                    </Button>
+
+                    <Button className="bg-blue-500 px-3 py-2 rounded-md shadow-sm text-white border hover:underline"
+                    onClick={() => setRefreshCount(refreshCount + 1)}>
+                        <ArrowPathIcon className="h-6 w-6" aria-hidden="true"/>
+                        Refresh
                     </Button>
                 </div>
             </div>
@@ -123,7 +170,11 @@ export default function AdminDashboardViewIssuePage() {
                     <h1 className="text-3xl font-bold text-gray-900">{title ?? "Issue Title"}</h1>
                     <p className="text-gray-800">
                         Submitted by <span
-                        className="font-semibold">{!displayName ? `${displayName} (@${username ?? "Unknown Author"})` : `@${username ?? `Unknown Author`}`}</span> on {createdAt ?? "Unknown Date"}
+                        className="font-semibold">{(displayName !== "null" && displayName !== null) ? `${displayName} (@${username ?? "Unknown Author"})` : `@${username ?? `Unknown Author`}`}</span> on {createdAt ?? "Unknown Date"}
+                    </p>
+                    <p className="text-gray-800">
+                        Assigned to: <span
+                        className="font-semibold">{(assigneeDisplayName !== null) ? `${assigneeDisplayName} (@${assigneeUsername ?? "None"})` : `@${assigneeUsername ?? `None`}`}</span>
                     </p>
                     <p className="text-gray-800">
                         Status &nbsp; <Tags text={status} bgColor="gray"/> &nbsp; &nbsp;
@@ -154,7 +205,7 @@ export default function AdminDashboardViewIssuePage() {
                 </div>
 
                 <div className="flex w-1/3 max-h-screen justify-center items-center">
-                    <IssueMessagesArea />
+                    <IssueMessagesArea/>
                 </div>
             </div>
         </div>
