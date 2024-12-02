@@ -2,7 +2,7 @@ import axios from "axios";
 import {createContext, useContext} from "react";
 
 const axiosInstance = axios.create({
-    baseURL: "https://emc003-tixcident-api-107d7953ff12.herokuapp.com/api/v1/",
+    baseURL: "http://localhost:3000/api/v1",
     timeout: 10_000,
     headers: {
         'Content-Type': 'application/json',

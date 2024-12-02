@@ -17,6 +17,9 @@ import IssueFormPage from "../pages/forms/IssueFormPage.jsx";
 import FeedbackFormPage from "../pages/forms/FeedbackFormPage.jsx";
 import ClientDashboardProfilePage from "../pages/client/screens/ClientDashboardProfilePage.jsx";
 import App from "../App.jsx";
+import AuthenticatedRoute from "../components/authentication/AuthenticatedRoute.jsx";
+import AdminDashboardProfilePage from "../pages/admin/screens/AdminDashboardProfilePage.jsx";
+import AdminDashboardEditIssuePage from "../pages/admin/screens/AdminDashboardEditIssuePage.jsx";
 
 const AppRoutes = createBrowserRouter([
     // ROOT - INITIAL DIRECTORY
@@ -48,7 +51,9 @@ const AppRoutes = createBrowserRouter([
     {
         path: '/u',
         element: (
-            <ClientDashboard />
+            <AuthenticatedRoute>
+                <ClientDashboard />
+            </AuthenticatedRoute>
         ),
         children: [
             {
@@ -92,7 +97,9 @@ const AppRoutes = createBrowserRouter([
     {
         path: '/a',
         element: (
-            <AdminDashboard />
+            <AuthenticatedRoute>
+                <AdminDashboard />
+            </AuthenticatedRoute>
         ),
         children: [
             {
@@ -112,6 +119,12 @@ const AppRoutes = createBrowserRouter([
                 element: (
                     <AdminDashboardViewIssuePage />
                 ),
+            },
+            {
+                path: 'issues/:issue_id/edit',
+                element: (
+                    <AdminDashboardEditIssuePage />
+                )
             },
             {
                 path: 'issues/create',
@@ -136,6 +149,12 @@ const AppRoutes = createBrowserRouter([
                 element: (
                     <AdminDashboardUsersPage />
                 ),
+            },
+            {
+                path: 'profile',
+                element: (
+                    <AdminDashboardProfilePage />
+                )
             },
         ]
     }

@@ -1,12 +1,14 @@
-import React, {useRef} from "react";
+import {useRef} from "react";
 
 // styling
 import "../../assets/css/register.css";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {z} from "zod";
 import {USERNAME_MAX_LENGTH, USERNAME_MIN_LENGTH} from "../../data/constants.js";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {createAccount} from "../../services/authServices.js";
+import AxiosConsumer from "../../contexts/AxiosContext.jsx";
 
 const registerSchema = z.object({
     username: z.string({
@@ -26,6 +28,8 @@ const registerSchema = z.object({
 });
 
 export default function SignUpPage() {
+    const axiosInstance = AxiosConsumer();
+    const navigate = useNavigate();
 
     const usernameField = useRef();
     const emailField = useRef();
@@ -41,9 +45,25 @@ export default function SignUpPage() {
     });
 
     async function handleSignUp(data) {
-        const [username, email, password] = [usernameField.current.value, emailField.current.value, passwordField.current.value];
+        const {username, email, password} = data;
 
-        
+        await createAccount(email, password)
+            .then(async credential => {
+                await axiosInstance.post('/users', {
+                    id: credential.user.uid,
+                    username: username,
+                    email: email,
+                }, {
+                    headers: {
+                        'X-Account-Provision': true,
+                    }
+                })
+                    .then(response => {
+                        if (response.status === 201) {
+                            navigate("/u");
+                        }
+                    })
+            });
     }
 
     return (

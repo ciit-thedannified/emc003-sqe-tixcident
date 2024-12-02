@@ -14,7 +14,7 @@ export default function IssueMessagesArea() {
 
     useEffect(() => {
         async function fetchMessages() {
-            await axiosInstance.get(`/issues/${issue_id}/messages/`, {
+            await axiosInstance.get(`/issue/${issue_id}/messages/`, {
                 params: {
                     items: 100,
                 }
@@ -51,7 +51,6 @@ export default function IssueMessagesArea() {
                 }
                 {
                     messages.map((message, index) => {
-                        console.log(message)
                         return <IssueMessage
                             key={index} 
                             display_name={message.author.displayName} 
@@ -69,6 +68,7 @@ export default function IssueMessagesArea() {
                 className="w-[95%] bg-gray-200 p-2 rounded text-gray-900 m-1.5"
                 rows="2"
                 placeholder="Enter your text here"
+                minLength={1}
             >
             </textarea>
             <button
